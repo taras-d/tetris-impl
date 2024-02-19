@@ -1,0 +1,64 @@
+
+body {
+  margin: 0;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.tetris {
+  --grid-border: 1px solid black;
+  --cell-border: 1px solid #e8e8e8;
+  
+  display: flex;
+  justify-content: center;
+  column-gap: 20px;
+
+  .grid {
+    display: inline-block;
+    border: var(--grid-border);
+    .row {
+      display: flex;
+      &:last-child .brick {
+        border-bottom: 0;
+      }
+    }
+    .cell {
+      border-right: var(--cell-border);
+      border-bottom: var(--cell-border);
+
+      &.type-I {
+        background-color: skyblue;
+      }
+      &.type-J {
+        background-color: blue;
+      }
+      &.type-L {
+        background-color: orange;
+      }
+      &.type-O {
+        background-color: yellow;
+      }
+      &.type-S {
+        background-color: green;
+      }
+      &.type-T {
+        background-color: purple;
+      }
+      &.type-Z {
+        background-color: red;
+      }
+
+      &:last-child {
+        border-right: 0;
+      }
+    }
+  }
+
+  .control-panel {
+    
+  }
+}
