@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { FigureMoveDirection, Tetris, Figure } from "../tetrisImpl";
+import { FigureMoveDirection, Tetris, Grid } from "../tetrisImpl";
 import { DebugMenu } from "./DebugMenu/DebugMenu";
 import "./App.less";
+import { GameGrid } from "./GameGrid/GameGrid";
 
 function App() {
   const tetrisRef = useRef<Tetris>();
 
-  const [grid, setGrid] = useState<(Figure | null)[][]>([]);
-  const [nextFigurePreview, setNextFigurePreview] = useState<(Figure | null)[][]>([]);
+  const [grid, setGrid] = useState<Grid>([]);
+  const [nextFigurePreview, setNextFigurePreview] = useState<Grid>([]);
   const [isPaused, setIsPaused] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
 
@@ -25,6 +26,7 @@ function App() {
 
     tetris.startNewGame();
     setGrid(tetris.grid);
+    setNextFigurePreview(tetris.nextFigurePreview);
 
     tetrisRef.current = tetris;
 
@@ -59,43 +61,16 @@ function App() {
     }
   }, []);
 
-  function getCellClassName(brick: Figure | null): string {
-    const type = brick ? `type-${brick.type}` : "empty";
-    return `cell ${type}`;
-  }
-
   return (
     <div className="tetris">
 
-      <div className="grid">
-        {grid.map((row, rowIndex) => (
-          <div className="row" key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <div
-                className={getCellClassName(cell)}
-                key={cellIndex}
-                style={{
-                  width: 30,
-                  height: 30,
-                }}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
+      <GameGrid grid={grid} cellSize={30} />
 
       <div className="control-panel">
-        
-        <div className="next-figure">
-          {nextFigurePreview.map((row, rowIndex) => (
-            <div key={rowIndex} style={{ display: "flex" }}>
-              {row.map((cell, cellIndex) => (
-                <div key={cellIndex}>{cell ? 1 : 0}</div>
-              ))}
-            </div>
-          ))}
-        </div>
-
+        <GameGrid
+          grid={nextFigurePreview}
+          cellSize={20}
+        />
         {tetrisRef.current && (
           <DebugMenu tetris={tetrisRef.current} />
         )}
