@@ -1,5 +1,3 @@
-import { Figure } from "./Figure";
-
 export enum FigureType {
   I = "I",
   J = "J",
@@ -24,10 +22,4 @@ export interface TetrisOptions {
   width: number;
   height: number;
   onNewFrame?: () => void;
-}
-
-export interface TetrisState {
-  grid: (Figure | null)[][];
-  isGameOver: boolean;
-  nextFigureType: FigureType;
 }
