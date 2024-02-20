@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { FigureMoveDirection, Tetris, Grid } from "../tetrisImpl";
-import { DebugMenu } from "./DebugMenu/DebugMenu";
-import "./App.less";
+import { useEffect, useState } from "react";
+import { Tetris, Grid } from "../tetrisImpl";
 import { GameGrid } from "./GameGrid/GameGrid";
+import { GameControls } from "./GameControls/GameControls";
+import "./App.less";
 
 function App() {
-  const tetrisRef = useRef<Tetris>();
-
+  const [tetrisInstance, setTetrisInstance] = useState<Tetris>();
   const [grid, setGrid] = useState<Grid>([]);
   const [nextFigurePreview, setNextFigurePreview] = useState<Grid>([]);
   const [isPaused, setIsPaused] = useState(false);
@@ -23,57 +22,29 @@ function App() {
         setIsGameOver(tetris.isGameOver);
       }
     });
-
     tetris.startNewGame();
+
     setGrid(tetris.grid);
     setNextFigurePreview(tetris.nextFigurePreview);
-
-    tetrisRef.current = tetris;
+    setTetrisInstance(tetris);
 
     return () => {
-      tetris.destruct();
+      tetris.destroy();
     }
   }, []);
 
-  useEffect(() => {
-    const keyDownHandler = (event: KeyboardEvent) => {
-      const map = {
-        [FigureMoveDirection.Left]: ["ArrowLeft", "KeyA"],
-        [FigureMoveDirection.Right]: ["ArrowRight", "KeyD"],
-        [FigureMoveDirection.Down]: ["ArrowDown", "KeyS"],
-        [FigureMoveDirection.RotateRight]: ["ArrowUp", "KeyW"],
-        [FigureMoveDirection.Drop]: ["Space"],
-      };
-
-      const dir = Object.keys(map).find(key => {
-        return (map as Record<string, string[]>)[key].includes(event.code);
-      });
-
-      if (dir) {
-        tetrisRef.current?.moveFigure(dir as FigureMoveDirection);
-      }
-    }
-
-    window.addEventListener("keydown", keyDownHandler);
-
-    return () => {
-      window.removeEventListener("keydown", keyDownHandler);
-    }
-  }, []);
-
-  return (
+  return tetrisInstance && (
     <div className="tetris">
-
       <GameGrid grid={grid} cellSize={30} />
-
       <div className="control-panel">
-        <GameGrid
-          grid={nextFigurePreview}
-          cellSize={20}
-        />
-        {tetrisRef.current && (
-          <DebugMenu tetris={tetrisRef.current} />
-        )}
+        <div className="next-figure">
+          <header>NEXT</header>
+          <GameGrid grid={nextFigurePreview} cellSize={20} />
+        </div>
+        <hr/>
+        <GameControls tetris={tetrisInstance} />
+        <hr/>
+        {/* GameStats */}
       </div>
     </div>
   );

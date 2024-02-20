@@ -1,0 +1,50 @@
+.game-controls {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+
+  button {
+    font-size: inherit;
+    font-family: inherit;
+    border: 1px solid black;
+    border-radius: 2px;
+    background-color: white;
+    width: 62px;
+    padding: 4px 0;
+    cursor: pointer;
+    &:hover {
+      background-color: #f6f6f6;
+    }
+  }
+
+  .buttons-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 8px;
+  }
+
+  .move-buttons {
+    > button {
+      width: 50px;
+    }
+    div {
+      display: flex;
+      flex-direction: column;
+      row-gap: 8px;
+    }
+  }
+
+  .keys-info {
+    display: flex;
+    justify-content: center;
+    column-gap: 15px;
+    font-size: 12px;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+  }
+}

@@ -10,7 +10,30 @@ body {
 }
 
 .tetris {
+  font-size: 13px;
   display: flex;
   justify-content: center;
   column-gap: 20px;
+
+  .control-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 15px;
+
+    .next-figure {
+      header {
+        margin-bottom: 2px;
+        text-align: center;
+      }
+    }
+
+    hr {
+      margin: 0;
+      border-top: 1px dashed #d2d2d2;
+      border-bottom: 0;
+      width: 100%;
+    }
+  }
+
 }

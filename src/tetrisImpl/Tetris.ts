@@ -72,7 +72,7 @@ export class Tetris {
     this.notifyNewFrame();
   }
 
-  destruct(): void {
+  destroy(): void {
     this.stopMoveDown();
     clearTimeout(this.setFigureTimeoutId);
   }
