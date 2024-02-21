@@ -77,21 +77,6 @@ export class Tetris {
     clearTimeout(this.setFigureTimeoutId);
   }
 
-  createFigure(type: FigureType, outsideTop?: boolean): void {
-    const figure = new Figure(type);
-
-    figure.x = Math.round(this.options.width / 2) - Math.round(figure.actualWidth / 2) - figure.offsetLeft;
-
-    if (outsideTop) {
-      figure.y = -(figure.actualHeight + figure.offsetTop);
-    } else {
-      figure.y = figure.offsetTop ? -figure.offsetTop : 0;
-    }
-
-    this.activeFigure = figure;
-    this.drawFigure(this.grid, figure);
-  }
-
   moveFigure(dir: FigureMoveDirection): void {
     if (!this.activeFigure || this.isGameOver || this.isPaused) {
       return;
@@ -145,7 +130,22 @@ export class Tetris {
     this.updateGameState();
   }
 
-  getRandomFigureType(): FigureType {
+  private createFigure(type: FigureType, outsideTop?: boolean): void {
+    const figure = new Figure(type);
+
+    figure.x = Math.round(this.options.width / 2) - Math.round(figure.actualWidth / 2) - figure.offsetLeft;
+
+    if (outsideTop) {
+      figure.y = -(figure.actualHeight + figure.offsetTop);
+    } else {
+      figure.y = figure.offsetTop ? -figure.offsetTop : 0;
+    }
+
+    this.activeFigure = figure;
+    this.drawFigure(this.grid, figure);
+  }
+
+  private getRandomFigureType(): FigureType {
     const allTypes = Object.values(FigureType);
     const index = Math.floor(Math.random() * allTypes.length);
     return allTypes[index];
