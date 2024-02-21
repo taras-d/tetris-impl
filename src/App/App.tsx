@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Tetris, Grid } from "../tetrisImpl";
 import { GameGrid } from "./GameGrid/GameGrid";
 import { GameControls } from "./GameControls/GameControls";
+import { GameStats } from "./GameStats/GameStats";
 import "./App.less";
 
 function App() {
@@ -10,6 +11,8 @@ function App() {
   const [nextFigurePreview, setNextFigurePreview] = useState<Grid>([]);
   const [isPaused, setIsPaused] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [level, setLevel] = useState(1);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     const tetris = new Tetris({
@@ -20,6 +23,8 @@ function App() {
         setNextFigurePreview(tetris.nextFigurePreview);
         setIsPaused(tetris.isPaused);
         setIsGameOver(tetris.isGameOver);
+        setLevel(tetris.level);
+        setScore(tetris.score);
       }
     });
     tetris.startNewGame();
@@ -44,7 +49,7 @@ function App() {
         <hr/>
         <GameControls tetris={tetrisInstance} />
         <hr/>
-        {/* GameStats */}
+        <GameStats level={level} score={score} />
       </div>
     </div>
   );
