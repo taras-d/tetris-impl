@@ -29,6 +29,7 @@ function App() {
         setScore(tetris.score);
       }
     });
+    
     tetris.startNewGame();
 
     setGrid(tetris.grid);
@@ -40,9 +41,28 @@ function App() {
     }
   }, []);
 
+  function renderGameOverlay() {
+    let text = "";
+
+    if (isGameOver) {
+      text = "GAME OVER";
+    } else if (isPaused) {
+      text = "PAUSE";
+    }
+
+    return text && (
+      <div className="game-overlay">
+        <div className="overlay-text">{text}</div>
+      </div>
+    );
+  }
+
   return tetrisInstance && (
     <div className="tetris">
-      <GameGrid grid={grid} cellSize={30} />
+      <div className="game-screen">
+        <GameGrid grid={grid} cellSize={30} />
+        {renderGameOverlay()}
+      </div>
       <div className="control-panel">
         <div className="next-figure">
           <header>NEXT</header>
