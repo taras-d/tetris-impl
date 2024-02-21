@@ -7,14 +7,13 @@ interface GameControlsProps {
 }
 
 export function GameControls({ tetris }: GameControlsProps) {
-
   useEffect(() => {
     const keyDownHandler = (event: KeyboardEvent) => {
       controlHandler(event.code);
     }
     window.addEventListener("keydown", keyDownHandler);
     return () => window.removeEventListener("keydown", keyDownHandler);
-  }, []);
+  }, [tetris]);
 
   function buttonClickHander(event: React.MouseEvent): void {
     const el = event.target;

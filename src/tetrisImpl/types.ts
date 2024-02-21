@@ -21,5 +21,7 @@ export enum FigureMoveDirection {
 export interface TetrisOptions {
   width: number;
   height: number;
+  nextFigureGridWidth: number;
+  nextFigureGridHeight: number;
   onNewFrame?: () => void;
 }

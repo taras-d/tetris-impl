@@ -8,7 +8,7 @@ import "./App.less";
 function App() {
   const [tetrisInstance, setTetrisInstance] = useState<Tetris>();
   const [grid, setGrid] = useState<Grid>([]);
-  const [nextFigurePreview, setNextFigurePreview] = useState<Grid>([]);
+  const [nextFigureGrid, setNextFigureGrid] = useState<Grid>([]);
   const [isPaused, setIsPaused] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
   const [level, setLevel] = useState(1);
@@ -18,9 +18,11 @@ function App() {
     const tetris = new Tetris({
       width: 10,
       height: 20,
+      nextFigureGridWidth: 4,
+      nextFigureGridHeight: 4,
       onNewFrame: () => {
         setGrid([...tetris.grid]);
-        setNextFigurePreview(tetris.nextFigurePreview);
+        setNextFigureGrid(tetris.nextFigureGrid);
         setIsPaused(tetris.isPaused);
         setIsGameOver(tetris.isGameOver);
         setLevel(tetris.level);
@@ -30,7 +32,7 @@ function App() {
     tetris.startNewGame();
 
     setGrid(tetris.grid);
-    setNextFigurePreview(tetris.nextFigurePreview);
+    setNextFigureGrid(tetris.nextFigureGrid);
     setTetrisInstance(tetris);
 
     return () => {
@@ -44,7 +46,7 @@ function App() {
       <div className="control-panel">
         <div className="next-figure">
           <header>NEXT</header>
-          <GameGrid grid={nextFigurePreview} cellSize={20} />
+          <GameGrid grid={nextFigureGrid} cellSize={20} />
         </div>
         <hr/>
         <GameControls tetris={tetrisInstance} />

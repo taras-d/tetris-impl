@@ -11,7 +11,7 @@ export class Tetris {
   level = 1;
 
   nextFigureType = FigureType.T;
-  nextFigurePreview: Grid = [];
+  nextFigureGrid: Grid = [];
 
   private debug = true;
 
@@ -193,10 +193,10 @@ export class Tetris {
     // Add new rows to the top of grid
     let removeCount = this.grid.length - newGrid.length;
     if (removeCount) {
-      this.log(`Removed ${removeCount} row(s)`);
       while (removeCount--) {
         newGrid.unshift(Array.from({ length: this.options.width }, () => null));
       }
+      this.log(`Removed ${removeCount} row(s)`);
     }
 
     this.grid = newGrid;
@@ -243,19 +243,19 @@ export class Tetris {
   private prepareNextFigure(): void {
     this.nextFigureType = this.getRandomFigureType();
 
-    const previewWidth = 4;
-    const previewHeight = 4;
+    const previewWidth = this.options.nextFigureGridWidth;
+    const previewHeight = this.options.nextFigureGridHeight;
 
     const figure = new Figure(this.nextFigureType);
     figure.x = Math.round(previewWidth / 2) - Math.round(figure.actualWidth / 2) - figure.offsetLeft
     figure.y = Math.round(previewHeight / 2) - Math.round(figure.actualHeight / 2) - figure.offsetTop;
 
-    this.nextFigurePreview = Array.from(
+    this.nextFigureGrid = Array.from(
       { length: previewHeight },
       () => Array.from({ length: previewWidth }, () => null)
     );
 
-    this.drawFigure(this.nextFigurePreview, figure);
+    this.drawFigure(this.nextFigureGrid, figure);
   }
 
   private isValidFigurePosition(figure: Figure): boolean {
@@ -291,7 +291,8 @@ export class Tetris {
   }
 
   private drawFigure(grid: Grid, figure: Figure, clear = false): void {
-    const { width, height } = this.options;
+    const width = grid[0]?.length ?? 0;
+    const height = grid.length;
 
     const startY = figure.y;
     const startX = figure.x;
