@@ -13,6 +13,7 @@ function App() {
   const [isGameOver, setIsGameOver] = useState(false);
   const [level, setLevel] = useState(1);
   const [score, setScore] = useState(0);
+  const [lines, setLines] = useState(0);
 
   useEffect(() => {
     const tetris = new Tetris({
@@ -27,6 +28,7 @@ function App() {
         setIsGameOver(tetris.isGameOver);
         setLevel(tetris.level);
         setScore(tetris.score);
+        setLines(tetris.lines);
       }
     });
     
@@ -71,7 +73,7 @@ function App() {
         <hr/>
         <GameControls tetris={tetrisInstance} />
         <hr/>
-        <GameStats level={level} score={score} />
+        <GameStats level={level} score={score} lines={lines} />
       </div>
     </div>
   );

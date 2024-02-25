@@ -8,6 +8,7 @@ export class Tetris {
   isGameOver = false;
   isPaused = false;
   score = 0;
+  lines = 0;
   level = 1;
 
   nextFigureType = FigureType.T;
@@ -45,6 +46,7 @@ export class Tetris {
     const initLevel = this.gameLevels[0];
     this.level = initLevel.level;
     this.score = initLevel.minScore;
+    this.lines = 0;
     this.moveDownIntervalMs = initLevel.moveMs;
     this.setFigureTimeoutMs = initLevel.setMs;
 
@@ -193,9 +195,10 @@ export class Tetris {
     // Add new rows to the top of grid
     let removeCount = this.grid.length - newGrid.length;
     if (removeCount) {
-      while (removeCount--) {
+      for (let i = 0; i < removeCount; ++i) {
         newGrid.unshift(Array.from({ length: this.options.width }, () => null));
       }
+      this.lines += removeCount;
       this.log(`Removed ${removeCount} row(s)`);
     }
 
